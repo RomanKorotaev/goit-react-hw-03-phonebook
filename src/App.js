@@ -22,6 +22,33 @@ class App extends Component {
     filter: "",
   };
 
+  componentDidMount () {
+    console.log (" Worked: componentDidMount ()");
+
+    const contacts =  localStorage.getItem ("contacts");
+    const parsedContacts =  JSON.parse( contacts )
+
+    // console.log (" contacts ", parsedContacts );
+
+  // Перед записью данных в state  localStorage проверяем не пустой ли  localStorage :   if (parsedContacts)
+if (parsedContacts!==null) { this.setState ({contacts:  parsedContacts })}
+    
+
+  }
+
+  componentDidUpdate (prevProp, prevState) {
+    // console.log (" Worked: componentDidUpdate ()");
+    // console.log ("  componentDidUpdate () - prevState:", prevState);
+    // console.log ("  componentDidUpdate () - prevProp:", prevProp);
+    // console.log ("  componentDidUpdate () - this.state : ", this.state);
+
+    if ( this.state.contacts !== prevState.contacts) {
+      // console.log ("  Обновили статус " );
+      localStorage.setItem ("contacts", JSON.stringify(this.state.contacts) );
+    }
+
+  }
+
   formSubmitHandler = (data) => {
     console.log("formSubmitHandler");
     console.log("Новый контакт ( data ) : ", data);
@@ -34,7 +61,7 @@ class App extends Component {
 
 
     if ( this.isExist(data) ) {
-      // если функция isExist возврвтит true, то такой контакт уже есть и мы сразу выходим, ничего не добавляем в список
+      // если функция isExist возвратит true, то такой контакт уже есть и мы сразу выходим, ничего не добавляем в список
       return;
         } else {
                 // Обновляем прежнее состояние массива через распыление
